@@ -1,13 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Employee_Portal.DAL.Entities
 {
-    [Table("Employee", Schema = "dbo")]
-    public class Employee
+    [Table("registered", Schema = "dbo")]
+    public class Registration
     {
         [Key]
-        public int EmpId { get; set; }
+        public int UserId { get; set; }
         public string Role { get; set; } = "user";
         public string Email { get; set; }
         public string Password { get; set; }
@@ -17,6 +17,6 @@ namespace Employee_Portal.DAL.Entities
         public DateTime? ModifiedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
         public bool IsDeleted { get; set; } = false;
+
     }
 }
-

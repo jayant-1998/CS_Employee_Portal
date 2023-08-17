@@ -1,8 +1,14 @@
-﻿namespace Employee_Portal.Models.RequestViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Employee_Portal.Models.RequestViewModels
 {
     public class LoginViewModel
     {
-        public string Email { get; set; }
+        [EmailAddress]
+        [Required(ErrorMessage = "email is Required")]
+        public string? Email { get; set; }
+
+        [Required(ErrorMessage = "password is Required")]
         public string Password { get; set; }
     }
 }

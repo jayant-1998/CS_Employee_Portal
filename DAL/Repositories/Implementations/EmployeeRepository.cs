@@ -14,36 +14,60 @@ namespace Employee_Portal.DAL.Repositories.Implementations
         {
             _context = serviceProvider.GetRequiredService<ApplicationDBContext>();
         }
-
-        public async Task<Token?> GetSecretKey()
+        public async Task<Registration> CreateAsync(Registration reg)
         {
-            Token response = await _context.Tokens
-                                           .Where(r => r.Id == 1)
-                                           .FirstOrDefaultAsync();
-            if (response != null)
-            {
-                return response;
-            }
-            return null;
-        }
-
-        public async Task<Employee?> LoginAsync(LoginViewModel reg)
-        {
-            Employee response = await _context.Employees
-                                .Where(r => r.Email == reg.Email)
-                                .FirstOrDefaultAsync();
-            if (response != null)
-            {
-                return response;
-            }
-            return null;
-        }
-
-        public async Task<Employee> RegistrationAsync(Employee emp)
-        {
-            await _context.Employees.AddAsync(emp);
+            await _context.AddAsync(reg);
             await _context.SaveChangesAsync();
-            return emp;
+            return reg;
+
+        }
+
+        public async Task<Registration?> DeleteAsync(int id)
+        {
+            Registration registration = await _context.registrations
+                .Where(t => t.UserId == id)
+                .FirstOrDefaultAsync();
+            if (registration != null)
+            {
+                registration.IsDeleted = true;
+                registration.DeletedAt = DateTime.Now;
+                await _context.SaveChangesAsync();
+                return registration;
+            }
+            return null;
+        }
+
+        public async Task<IEnumerable<Registration>> ReadAsync(int id)
+        {
+            if (id != 0)
+            {
+                var registration = await _context.registrations
+                            .Where(t => t.UserId == id)
+                            .ToListAsync();
+                return registration;
+            }
+            else
+            {
+                var registration =await _context.registrations
+                            .Where(t => !t.IsDeleted )
+                            .ToListAsync();
+                return registration;
+            }
+        }
+
+        public async Task<Registration?> UpdateAsync(int id,UpdateViewModel update)
+        {
+            Registration registration = await _context.registrations
+                            .Where(t => t.UserId == id && t.IsDeleted == false)
+                            .FirstOrDefaultAsync();
+            if (registration != null)
+            {
+                registration.Name= update.Name;
+                registration.Age = update.Age;
+                await _context.SaveChangesAsync();
+                return registration;
+            }
+            return null;
         }
     }
 }

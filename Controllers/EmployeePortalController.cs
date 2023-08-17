@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_Portal.Controllers
 {
+    
     [ApiController]
     [Route("[controller]")]
     public class EmployeePortalController : ControllerBase
@@ -14,13 +15,13 @@ namespace Employee_Portal.Controllers
         {
             _service = serviceProvider.GetRequiredService<IEmployeeService>();
         }
-        // POST: insert data
-        [HttpPost("registration")]
-        public async Task<IActionResult> Registration(RegistrationViewModel reg)
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(RegistrationViewModel reg, string? jwt, int id)
         {
             try
             {
-                RegistrationViewModel result = await _service.RegistrationAsync(reg);
+                var result = await _service.CreateAsync(reg,jwt, id);
+
                 var response = new ApiViewModel
                 {
                     Code = 200,
@@ -40,16 +41,13 @@ namespace Employee_Portal.Controllers
                 return Ok(response);
             }
         }
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginViewModel login)
+        [HttpGet("read")]
+        public async Task<IActionResult> Read(string? jwt, int id)
         {
             try
             {
-                var result = await _service.LoginAsync(login);
-                if (result == "unauthorized")
-                {
-                    throw new Exception("unauthorized");
-                }
+                var result = await _service.ReadAsync(jwt , id);
+
                 var response = new ApiViewModel
                 {
                     Code = 200,
@@ -69,30 +67,57 @@ namespace Employee_Portal.Controllers
                 return Ok(response);
             }
         }
-        //[HttpPost("ENCREPTION")]
-        //public IActionResult Encreption()
-        //{
-        //    try
-        //    {
-        //        var result = _service.Encryption();
-        //        var response = new ApiViewModel
-        //        {
-        //            Code = 200,
-        //            Message = "Success",
-        //            Body = result
-        //        };
-        //        return Ok(response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var response = new ApiViewModel
-        //        {
-        //            Code = 500,
-        //            Message = ex.Message,
-        //            Body = null
-        //        };
-        //        return Ok(response);
-        //    }
-        //}
+        [HttpPut("update")]
+        public async Task<IActionResult> Update(string? jwt, int id,UpdateViewModel update)
+        {
+            try
+            {
+                var result = await _service.UpdateAsync(update , jwt , id);
+
+                var response = new ApiViewModel
+                {
+                    Code = 200,
+                    Message = "Success",
+                    Body = result
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var response = new ApiViewModel
+                {
+                    Code = 500,
+                    Message = ex.Message,
+                    Body = null
+                };
+                return Ok(response);
+            }
+        }
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(string? jwt, int id)
+        {
+            try
+            {
+                var result = await _service.DeleteAsync(jwt , id);
+
+                var response = new ApiViewModel
+                {
+                    Code = 200,
+                    Message = "Success",
+                    Body = result
+                };
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                var response = new ApiViewModel
+                {
+                    Code = 500,
+                    Message = ex.Message,
+                    Body = null
+                };
+                return Ok(response);
+            }
+        }
     }
 }
