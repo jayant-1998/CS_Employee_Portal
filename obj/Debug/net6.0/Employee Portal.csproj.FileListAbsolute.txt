@@ -77,3 +77,5 @@ C:\Users\Jayant\Desktop\C# Workspace\Employee Portal\obj\Debug\net6.0\refint\Emp
 C:\Users\Jayant\Desktop\C# Workspace\Employee Portal\obj\Debug\net6.0\Employee Portal.pdb
 C:\Users\Jayant\Desktop\C# Workspace\Employee Portal\obj\Debug\net6.0\Employee Portal.genruntimeconfig.cache
 C:\Users\Jayant\Desktop\C# Workspace\Employee Portal\obj\Debug\net6.0\ref\Employee Portal.dll
+C:\Users\Jayant\Desktop\C# Workspace\Employee Portal\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Jayant\Desktop\C# Workspace\Employee Portal\bin\Debug\net6.0\Newtonsoft.Json.dll

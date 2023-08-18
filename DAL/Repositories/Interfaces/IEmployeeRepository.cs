@@ -5,9 +5,10 @@ namespace Employee_Portal.DAL.Repositories.Interfaces
 {
     public interface IEmployeeRepository
     {
-        public Task<Employee> RegistrationAsync(Employee reg);
-        public Task<Employee?> LoginAsync(LoginViewModel reg);
-        public Task<Token?> GetSecretKey();
+        public Task<Registration> CreateAsync(Registration reg);
+        public Task<IEnumerable<Registration>> ReadAsync(int id);
+        public Task<Registration> UpdateAsync(int id,UpdateViewModel update);
+        public Task<Registration> DeleteAsync(int id);
     }
 }
 
