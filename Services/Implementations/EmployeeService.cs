@@ -15,15 +15,28 @@ namespace Employee_Portal.Services.Implementations
         {
             _repository = serviceProvider.GetRequiredService<IEmployeeRepository>();
         }
-        public async Task<Registration?> CreateAsync(RegistrationViewModel reg, string? jwt, int id)
+        public async Task<Registration> CreateAsync(RegistrationViewModel reg, string? jwt, int id)
         {
+            var create = new CreateFromLogin();
             var obj = new FetchDataFromLogin();
             OtherServerViewModel temp = await obj.FetchData(jwt,id);
-            if (temp.Role == "admin")
+            if (temp.Role.Equals("admin"))
             {
-                return await _repository.CreateAsync(reg.ToViewModel<RegistrationViewModel, Registration>());
+            //    RegistrationWithRoleViewModel registrtion = reg.ToViewModel<RegistrationViewModel, RegistrationWithRoleViewModel>();
+            //    registrtion.Role = temp.Role;
+            //    return await create.Create(registrtion);
+
+                Registration registration = reg.ToViewModel<RegistrationViewModel, Registration>();
+                registration.Role = temp.Role;
+                return await _repository.CreateAsync(registration);
             }
-            throw new Exception("only admin can add user");
+            if (temp.Role.Equals("user"))
+            {
+                Registration registration = reg.ToViewModel<RegistrationViewModel, Registration>();
+                registration.Role = temp.Role;
+                return await _repository.CreateAsync(registration);
+            }
+            throw new Exception("NO other role is allow then user,admin");
         }
 
         public async Task<Registration?> DeleteAsync(string? jwt, int id)

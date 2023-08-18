@@ -25,7 +25,7 @@ namespace Employee_Portal.DAL.Repositories.Implementations
         public async Task<Registration?> DeleteAsync(int id)
         {
             Registration registration = await _context.registrations
-                .Where(t => t.UserId == id)
+                .Where(t => t.UserId == id && !t.IsDeleted)
                 .FirstOrDefaultAsync();
             if (registration != null)
             {
@@ -42,7 +42,7 @@ namespace Employee_Portal.DAL.Repositories.Implementations
             if (id != 0)
             {
                 var registration = await _context.registrations
-                            .Where(t => t.UserId == id)
+                            .Where(t => t.UserId == id && !t.IsDeleted)
                             .ToListAsync();
                 return registration;
             }
@@ -58,7 +58,7 @@ namespace Employee_Portal.DAL.Repositories.Implementations
         public async Task<Registration?> UpdateAsync(int id,UpdateViewModel update)
         {
             Registration registration = await _context.registrations
-                            .Where(t => t.UserId == id && t.IsDeleted == false)
+                            .Where(t => t.UserId == id && !t.IsDeleted)
                             .FirstOrDefaultAsync();
             if (registration != null)
             {

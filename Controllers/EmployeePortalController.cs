@@ -73,7 +73,6 @@ namespace Employee_Portal.Controllers
             try
             {
                 var result = await _service.UpdateAsync(update , jwt , id);
-
                 var response = new ApiViewModel
                 {
                     Code = 200,
@@ -98,8 +97,7 @@ namespace Employee_Portal.Controllers
         {
             try
             {
-                var result = await _service.DeleteAsync(jwt , id);
-
+                var result = await _service.DeleteAsync(jwt, id);
                 var response = new ApiViewModel
                 {
                     Code = 200,

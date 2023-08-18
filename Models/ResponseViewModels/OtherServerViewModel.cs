@@ -11,5 +11,4 @@ namespace Employee_Portal.Models.ResponseViewModels
         public DateTime CreatedAt { get; set; }
         public DateTime? ModifiedAt { get; set; }
     }
-
 }
